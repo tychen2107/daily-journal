@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tingyun-journal-v4';
+const CACHE_NAME = 'tingyun-journal-v6';
 const ASSETS = [
   './',
   './index.html',
