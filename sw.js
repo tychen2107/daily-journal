@@ -1,11 +1,8 @@
-const CACHE_NAME = 'tingyun-journal-v6';
+const CACHE_NAME = 'tingyun-journal-v6-fixed';
 const ASSETS = [
   './',
   './index.html',
-  './manifest.json',
-  './apple-touch-icon.png',
-  './icon-192.png',
-  './icon-512.png'
+  './manifest.json'
 ];
 
 self.addEventListener('install', (event) => {
