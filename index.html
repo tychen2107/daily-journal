@@ -814,6 +814,148 @@
       gap: 8px;
     }
 
+
+    .cal-year-month-selects {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cal-select {
+      border: 1.2px solid var(--border-line);
+      background: var(--cream-acrylic);
+      color: var(--text-main);
+      border-radius: 12px;
+      padding: 4px 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .cal-select:focus {
+      border-color: var(--sage);
+    }
+
+    .habit-overview-box {
+      background: var(--acrylic-wash);
+      border-radius: 18px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+
+    .habit-overview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      font-size: 0.8rem;
+      color: var(--text-sub);
+    }
+
+    .habit-matrix-wrap {
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .habit-matrix-grid {
+      min-width: 280px;
+    }
+
+    .habit-matrix-days-head {
+      display: grid;
+      grid-template-columns: 96px repeat(7, 1fr);
+      gap: 4px;
+      align-items: center;
+      margin-bottom: 6px;
+      font-size: 0.72rem;
+      color: var(--text-sub);
+      text-align: center;
+    }
+
+    .habit-matrix-row {
+      display: grid;
+      grid-template-columns: 96px repeat(7, 1fr);
+      gap: 4px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .habit-matrix-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .habit-matrix-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-right: 4px;
+    }
+
+    .habit-day-dot-btn {
+      width: 26px;
+      height: 26px;
+      margin: 0 auto;
+      border-radius: 50%;
+      border: 1.3px solid var(--border-line);
+      background: var(--cream-acrylic);
+      color: var(--text-sub);
+      font-size: 0.74rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .habit-day-dot-btn.done-dot {
+      background: var(--sage);
+      border-color: var(--sage);
+      color: #fff;
+    }
+
+    .habit-month-summary-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .habit-summary-card {
+      background: var(--cream-acrylic);
+      border: 1.2px solid var(--border-line);
+      border-radius: 14px;
+      padding: 9px 11px;
+    }
+
+    .habit-summary-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .habit-progress-bar {
+      height: 7px;
+      border-radius: 99px;
+      background: var(--sage-soft);
+      overflow: hidden;
+    }
+
+    .habit-progress-fill {
+      height: 100%;
+      background: var(--sage);
+      border-radius: 99px;
+      transition: width 0.2s ease;
+    }
+
     .hidden { display: none !important; }
 
     .toast {
@@ -897,7 +1039,10 @@
         <div id="monthFootprintPanel" class="hidden">
           <div class="cal-month-bar">
             <button class="date-step-btn" id="prevMonthCalBtn" title="上一個月">‹ 上月</button>
-            <span class="cal-month-title" id="calMonthTitle">2026年 11月</span>
+            <div class="cal-year-month-selects">
+              <select class="cal-select" id="calYearSelect" aria-label="選擇年份"></select>
+              <select class="cal-select" id="calMonthSelect" aria-label="選擇月份"></select>
+            </div>
             <button class="date-step-btn" id="nextMonthCalBtn" title="下一個月">下月 ›</button>
           </div>
           <div class="cal-weekdays">
@@ -933,10 +1078,24 @@
         </div>
         <div class="habit-meta-row">
           <span id="habitCountText">完成 0 / 3</span>
-          <button class="outline-sm-btn" id="openHabitBtn">編輯習慣</button>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <button class="outline-sm-btn" id="toggleHabitOverviewBtn">足跡總覽</button>
+            <button class="outline-sm-btn" id="openHabitBtn">編輯習慣</button>
+          </div>
         </div>
         <div class="acrylic-wash">
           <div id="homeHabitContainer"></div>
+        </div>
+
+        <div class="habit-overview-box hidden" id="habitOverviewPanel">
+          <div class="habit-overview-header">
+            <div class="cal-mode-switch">
+              <button class="cal-mode-btn active" id="habitViewWeekBtn">近 7 日足跡</button>
+              <button class="cal-mode-btn" id="habitViewMonthBtn">本月達成率</button>
+            </div>
+            <span id="habitOverviewCaption" style="font-weight:700;color:var(--sage-dark);"></span>
+          </div>
+          <div id="habitOverviewContent"></div>
         </div>
       </section>
 
@@ -1244,10 +1403,40 @@
       if (el) el.textContent = `累計 ${keysWithData.length} 天`;
     }
 
+    function populateYearMonthSelects() {
+      const yearSel = document.getElementById('calYearSelect');
+      const monthSel = document.getElementById('calMonthSelect');
+      if (!yearSel || !monthSel) return;
+
+      const dataYears = Object.keys(appData.days || {})
+        .map(k => parseInt(k.split('-')[0], 10))
+        .filter(y => !Number.isNaN(y));
+      const baseYear = parseDateStr(todayStr).getFullYear();
+      const minYear = Math.min(baseYear - 3, calViewYear - 1, ...(dataYears.length ? dataYears : [baseYear]));
+      const maxYear = Math.max(baseYear + 2, calViewYear + 1, ...(dataYears.length ? dataYears : [baseYear]));
+
+      yearSel.innerHTML = '';
+      for (let y = minYear; y <= maxYear; y++) {
+        const opt = document.createElement('option');
+        opt.value = String(y);
+        opt.textContent = `${y}年`;
+        if (y === calViewYear) opt.selected = true;
+        yearSel.appendChild(opt);
+      }
+
+      monthSel.innerHTML = '';
+      for (let m = 0; m < 12; m++) {
+        const opt = document.createElement('option');
+        opt.value = String(m);
+        opt.textContent = `${m + 1}月`;
+        if (m === calViewMonth) opt.selected = true;
+        monthSel.appendChild(opt);
+      }
+    }
+
     function renderMonthCalendar() {
-      const titleEl = document.getElementById('calMonthTitle');
+      populateYearMonthSelects();
       const gridEl = document.getElementById('calDaysGrid');
-      titleEl.textContent = `${calViewYear}年 ${calViewMonth + 1}月`;
       gridEl.innerHTML = '';
 
       const firstDayObj = new Date(calViewYear, calViewMonth, 1);
@@ -1332,6 +1521,151 @@
       renderMonthCalendar();
     };
 
+
+    document.getElementById('calYearSelect').addEventListener('change', e => {
+      const y = parseInt(e.target.value, 10);
+      if (!Number.isNaN(y)) {
+        calViewYear = y;
+        renderMonthCalendar();
+      }
+    });
+
+    document.getElementById('calMonthSelect').addEventListener('change', e => {
+      const m = parseInt(e.target.value, 10);
+      if (!Number.isNaN(m)) {
+        calViewMonth = m;
+        renderMonthCalendar();
+      }
+    });
+
+    let habitOverviewOpen = false;
+    let habitOverviewMode = 'week'; // 'week' | 'month'
+
+    function isHabitDoneOnDay(hb, dayObj) {
+      if (!dayObj) return false;
+      const hasStory = Boolean((dayObj.story || '').trim() || (dayObj.moodNote || '').trim());
+      const doneList = Array.isArray(dayObj.doneHabits) ? dayObj.doneHabits : [];
+      return hb.autoDiary ? (hasStory || doneList.includes(hb.id)) : doneList.includes(hb.id);
+    }
+
+    function renderHabitOverview() {
+      const panel = document.getElementById('habitOverviewPanel');
+      const toggleBtn = document.getElementById('toggleHabitOverviewBtn');
+      if (!panel || !toggleBtn) return;
+
+      panel.classList.toggle('hidden', !habitOverviewOpen);
+      toggleBtn.classList.toggle('active', habitOverviewOpen);
+      if (!habitOverviewOpen) return;
+
+      document.getElementById('habitViewWeekBtn').classList.toggle('active', habitOverviewMode === 'week');
+      document.getElementById('habitViewMonthBtn').classList.toggle('active', habitOverviewMode === 'month');
+
+      const habits = appData.settings.habits || [];
+      const contentEl = document.getElementById('habitOverviewContent');
+      const captionEl = document.getElementById('habitOverviewCaption');
+      contentEl.innerHTML = '';
+
+      if (habits.length === 0) {
+        captionEl.textContent = '';
+        contentEl.innerHTML = `<div style="font-size:0.78rem;color:var(--text-sub);text-align:center;padding:6px;">還沒有習慣可以統計喔</div>`;
+        return;
+      }
+
+      if (habitOverviewMode === 'week') {
+        const last7Keys = [];
+        for (let i = 6; i >= 0; i--) {
+          last7Keys.push(shiftDateStr(todayStr, -i));
+        }
+        captionEl.textContent = '點圓點可切換該日打卡';
+
+        let headHtml = `<div class="habit-matrix-days-head"><span>習慣</span>`;
+        last7Keys.forEach(k => {
+          const dt = parseDateStr(k);
+          headHtml += `<span>${WEEK_CN[dt.getDay()]}<br>${dt.getDate()}</span>`;
+        });
+        headHtml += `</div>`;
+
+        let rowsHtml = '';
+        habits.forEach(hb => {
+          rowsHtml += `<div class="habit-matrix-row"><div class="habit-matrix-name" title="${hb.name}">${hb.name}</div>`;
+          last7Keys.forEach(k => {
+            const dObj = appData.days[k];
+            const done = isHabitDoneOnDay(hb, dObj);
+            rowsHtml += `
+              <button type="button" class="habit-day-dot-btn ${done ? 'done-dot' : ''}" data-hkey="${k}" data-hid="${hb.id}" title="${k} ${hb.name}">
+                ${done ? '✓' : '·'}
+              </button>
+            `;
+          });
+          rowsHtml += `</div>`;
+        });
+
+        contentEl.innerHTML = `<div class="habit-matrix-wrap"><div class="habit-matrix-grid">${headHtml}${rowsHtml}</div></div>`;
+
+        contentEl.querySelectorAll('.habit-day-dot-btn').forEach(btn => {
+          btn.onclick = () => {
+            const k = btn.dataset.hkey;
+            const hid = btn.dataset.hid;
+            const targetDay = ensureDay(k);
+            if (!Array.isArray(targetDay.doneHabits)) targetDay.doneHabits = [];
+            const idx = targetDay.doneHabits.indexOf(hid);
+            if (idx >= 0) targetDay.doneHabits.splice(idx, 1);
+            else targetDay.doneHabits.push(hid);
+            persistAppData();
+            renderHabitsUI(ensureDay(selectedDate));
+            refreshFootprintView();
+            renderHabitOverview();
+          };
+        });
+      } else {
+        const curDt = parseDateStr(selectedDate);
+        const y = curDt.getFullYear();
+        const m = curDt.getMonth();
+        const daysInMonth = new Date(y, m + 1, 0).getDate();
+        captionEl.textContent = `${y}年 ${m + 1}月（共 ${daysInMonth} 天）`;
+
+        const listDiv = document.createElement('div');
+        listDiv.className = 'habit-month-summary-list';
+
+        habits.forEach(hb => {
+          let doneDays = 0;
+          for (let dNum = 1; dNum <= daysInMonth; dNum++) {
+            const key = `${y}-${String(m + 1).padStart(2, '0')}-${String(dNum).padStart(2, '0')}`;
+            if (isHabitDoneOnDay(hb, appData.days[key])) doneDays++;
+          }
+          const pct = Math.round((doneDays / daysInMonth) * 100);
+
+          const card = document.createElement('div');
+          card.className = 'habit-summary-card';
+          card.innerHTML = `
+            <div class="habit-summary-top">
+              <span>${hb.name}</span>
+              <span style="color:var(--sage-dark);">${doneDays} / ${daysInMonth} 天（${pct}%）</span>
+            </div>
+            <div class="habit-progress-bar">
+              <div class="habit-progress-fill" style="width:${pct}%;"></div>
+            </div>
+          `;
+          listDiv.appendChild(card);
+        });
+
+        contentEl.appendChild(listDiv);
+      }
+    }
+
+    document.getElementById('toggleHabitOverviewBtn').onclick = () => {
+      habitOverviewOpen = !habitOverviewOpen;
+      renderHabitOverview();
+    };
+    document.getElementById('habitViewWeekBtn').onclick = () => {
+      habitOverviewMode = 'week';
+      renderHabitOverview();
+    };
+    document.getElementById('habitViewMonthBtn').onclick = () => {
+      habitOverviewMode = 'month';
+      renderHabitOverview();
+    };
+
     function renderFootprintStrip() {
       const strip = document.getElementById('footprintStrip');
       strip.innerHTML = '';
@@ -1400,6 +1734,7 @@
       refreshFootprintView();
       renderWaterUI(curDay);
       renderHabitsUI(curDay);
+      renderHabitOverview();
       renderTodosUI();
       renderDiaryUI(curDay);
       persistAppData();
@@ -1481,6 +1816,7 @@
       });
 
       document.getElementById('habitCountText').textContent = `完成 ${doneCount} / ${habits.length}`;
+      renderHabitOverview();
     }
 
     function renderTodosUI() {
