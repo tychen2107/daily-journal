@@ -1316,7 +1316,7 @@
       if (isMonth) {
         renderMonthCalendar();
       } else {
-        refreshFootprintView();
+        renderFootprintStrip();
       }
       updateArchiveStats();
     }
@@ -1378,6 +1378,19 @@
     }
 
     function renderAll() {
+      if (!appData || !appData.settings) {
+        appData = JSON.parse(JSON.stringify(defaultData));
+      }
+      if (!Array.isArray(appData.settings.habits) || appData.settings.habits.length === 0) {
+        appData.settings.habits = JSON.parse(JSON.stringify(defaultData.settings.habits));
+      }
+      if (!appData.settings.bottleMl || appData.settings.bottleMl <= 0) {
+        appData.settings.bottleMl = defaultData.settings.bottleMl;
+      }
+      if (!appData.settings.goalMl || appData.settings.goalMl <= 0) {
+        appData.settings.goalMl = defaultData.settings.goalMl;
+      }
+
       const title = (appData.settings.appTitle || '今日亭好，勻淡風輕').trim();
       document.getElementById('displayAppTitle').textContent = title;
       document.title = title;
@@ -1408,6 +1421,7 @@
       renderHabitsUI(curDay);
       renderTodosUI();
       renderDiaryUI(curDay);
+      persistAppData();
     }
 
     function renderWaterUI(todayDay) {
@@ -1457,10 +1471,12 @@
         return;
       }
 
+      const doneList = Array.isArray(todayDay.doneHabits) ? todayDay.doneHabits : [];
+      todayDay.doneHabits = doneList;
       habits.forEach(hb => {
         const checked = hb.autoDiary
-          ? (hasStory || todayDay.doneHabits.includes(hb.id))
-          : todayDay.doneHabits.includes(hb.id);
+          ? (hasStory || doneList.includes(hb.id))
+          : doneList.includes(hb.id);
         if (checked) doneCount++;
 
         const row = document.createElement('div');
@@ -1616,10 +1632,12 @@
       const txt = inp.value.trim();
       if (!txt) return;
       const targetDay = ensureDay(activeTodoDate);
+      if (!Array.isArray(targetDay.todos)) targetDay.todos = [];
       targetDay.todos.push({ text: txt, done: false });
       inp.value = '';
       persistAppData();
       renderTodosUI();
+      refreshFootprintView();
     }
     document.getElementById('homeTodoAddBtn').onclick = addTodoItem;
     document.getElementById('homeTodoInput').addEventListener('keydown', e => {
