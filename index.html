@@ -18,6 +18,7 @@
     :root {
       --bg-paper: #FAF7F2;
       --sage: #7E9A78;
+      --sage-dark: #637E5E;
       --sage-light: #DCE6D8;
       --sage-soft: #EEF3EC;
       --cream-acrylic: #FFFDF8;
@@ -25,8 +26,7 @@
       --text-main: #4F584D;
       --text-sub: #828C7F;
       --accent-gold: #C5A880;
-      --accent-blush: #E4B5AC;
-      --border-organic: rgba(126, 154, 120, 0.42);
+      --border-line: rgba(126, 154, 120, 0.45);
     }
 
     * {
@@ -37,458 +37,553 @@
 
     body {
       margin: 0;
-      padding: env(safe-area-inset-top) 14px calc(28px + env(safe-area-inset-bottom)) 14px;
+      padding: env(safe-area-inset-top) 14px calc(32px + env(safe-area-inset-bottom)) 14px;
       background-color: var(--bg-paper);
-      background-image:
-        radial-gradient(circle at 12% 10%, rgba(219, 229, 214, 0.45) 0%, transparent 42%),
-        radial-gradient(circle at 88% 18%, rgba(242, 232, 213, 0.55) 0%, transparent 45%),
-        radial-gradient(circle at 20% 85%, rgba(242, 232, 213, 0.45) 0%, transparent 45%),
-        radial-gradient(circle at 85% 88%, rgba(219, 229, 214, 0.40) 0%, transparent 42%);
       color: var(--text-main);
       min-height: 100vh;
     }
 
     .app-shell {
-      max-width: 480px;
+      max-width: 460px;
       margin: 0 auto;
     }
 
     /* 頂部標題區 */
-    header {
+    .top-header {
       text-align: center;
-      padding: 16px 8px 10px;
-      position: relative;
+      padding: 14px 6px 6px;
     }
 
-    .title-wrap {
+    .title-clickable {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
       cursor: pointer;
-      padding: 4px 10px;
-      border-radius: 16px;
-      transition: background 0.2s ease;
+      padding: 2px 8px;
+      border-radius: 14px;
     }
 
-    .title-wrap:hover, .title-wrap:active {
-      background: rgba(220, 230, 216, 0.45);
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 1.44rem;
-      font-weight: 700;
-      color: var(--sage);
-      letter-spacing: 0.05em;
-    }
-
-    .edit-title-icon {
-      color: var(--accent-gold);
-      opacity: 0.85;
-      flex-shrink: 0;
-    }
-
-    .subtitle-bar {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      margin-top: 8px;
-      font-size: 0.85rem;
-      color: var(--text-sub);
-    }
-
-    .date-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255, 253, 248, 0.88);
-      border: 1.5px solid var(--border-organic);
-      border-radius: 20px;
-      padding: 4px 12px;
-      box-shadow: 0 2px 8px rgba(126, 154, 120, 0.08);
-    }
-
-    .icon-btn {
-      background: none;
-      border: none;
-      color: var(--sage);
-      font-weight: 700;
-      cursor: pointer;
-      padding: 2px 6px;
-      border-radius: 10px;
-      font-size: 0.9rem;
-    }
-
-    .icon-btn:active {
+    .title-clickable:active {
       background: var(--sage-soft);
     }
 
-    /* 頂部功能工具列 */
-    .nav-row {
+    .main-title {
+      margin: 0;
+      font-size: 1.38rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: 0.04em;
+    }
+
+    .sub-caption {
+      margin-top: 2px;
+      font-size: 0.8rem;
+      color: var(--text-sub);
+    }
+
+    .status-pill-row {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
       gap: 8px;
-      margin: 10px 0 14px;
+      margin-top: 8px;
     }
 
-    .tabs {
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--cream-acrylic);
+      border: 1.2px solid var(--border-line);
+      border-radius: 18px;
+      padding: 4px 12px;
+      font-size: 0.82rem;
+      color: var(--sage-dark);
+      font-weight: 500;
+    }
+
+    .pill-action {
+      background: var(--cream-acrylic);
+      border: 1.2px solid var(--border-line);
+      border-radius: 16px;
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* 分頁膠囊 (今日總覽 / 小日記) */
+    .segment-bar {
       display: flex;
-      background: rgba(238, 243, 236, 0.85);
+      background: #F4EFE6;
+      border: 1.2px solid var(--border-line);
+      border-radius: 24px;
       padding: 4px;
-      border-radius: 22px;
-      border: 1.5px solid var(--border-organic);
-      flex: 1;
+      margin: 12px 0 14px;
+      gap: 4px;
     }
 
-    .tab-btn {
+    .segment-btn {
       flex: 1;
       border: none;
       background: transparent;
-      padding: 7px 10px;
-      border-radius: 18px;
-      font-size: 0.9rem;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 0.92rem;
       font-weight: 700;
       color: var(--text-sub);
       cursor: pointer;
-      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
     }
 
-    .tab-btn.active {
-      background: var(--cream-acrylic);
-      color: var(--sage);
-      box-shadow: 0 2px 6px rgba(126, 154, 120, 0.15);
+    .segment-btn.active {
+      background: var(--sage);
+      color: #fff;
     }
 
-    .backup-btn {
-      background: var(--cream-acrylic);
-      border: 1.5px solid var(--border-organic);
-      color: var(--sage);
+    /* 框線區塊卡片 (還原截圖手繪感圓角與置中標題線) */
+    .framed-section {
+      border: 1.5px solid var(--border-line);
+      border-radius: 24px 20px 26px 22px;
+      background: var(--bg-paper);
+      padding: 16px 14px 14px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .section-heading-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .section-heading-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(126, 154, 120, 0.25);
+    }
+
+    .section-heading-text {
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: var(--sage-dark);
+      white-space: nowrap;
+    }
+
+    /* 壓克力奶油塗層底色 */
+    .acrylic-wash {
+      background: linear-gradient(180deg, rgba(244, 236, 219, 0.62) 0%, rgba(255, 253, 248, 0.85) 100%);
       border-radius: 18px;
-      padding: 7px 12px;
+      padding: 12px;
+    }
+
+    /* 首頁：日期摘要列 */
+    .summary-date-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1.4px solid var(--border-line);
+      border-radius: 20px;
+      background: var(--cream-acrylic);
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      gap: 8px;
+    }
+
+    .summary-date-title {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .summary-date-sub {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      margin-top: 2px;
+    }
+
+    .write-pill-btn {
+      background: var(--sage);
+      color: #fff;
+      border: none;
+      border-radius: 18px;
+      padding: 7px 13px;
       font-size: 0.82rem;
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
-      box-shadow: 0 2px 6px rgba(126, 154, 120, 0.08);
     }
 
-    /* 水彩壓克力卡片 */
-    .card {
-      background: linear-gradient(145deg, rgba(255, 253, 248, 0.94), rgba(247, 242, 232, 0.88));
-      border: 1.8px solid var(--border-organic);
-      border-radius: 24px 20px 26px 22px;
-      padding: 15px 16px;
-      margin-bottom: 14px;
-      box-shadow: 0 4px 14px rgba(126, 154, 120, 0.07), inset 0 0 18px rgba(242, 232, 213, 0.35);
-      position: relative;
-    }
-
-    .card-header {
+    /* 每日喝水紀錄 */
+    .water-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
-    }
-
-    .card-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--sage);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .mini-action {
-      background: var(--sage-soft);
-      border: 1px solid var(--border-organic);
-      color: var(--sage);
-      font-size: 0.76rem;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 14px;
-      cursor: pointer;
-    }
-
-    /* 7日足跡圓點 */
-    .week-strip {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 6px;
-      text-align: center;
-    }
-
-    .day-dot-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-      padding: 4px 0;
-      border-radius: 14px;
-    }
-
-    .day-dot-item.selected {
-      background: rgba(220, 230, 216, 0.55);
-    }
-
-    .day-dot-label {
-      font-size: 0.72rem;
-      color: var(--text-sub);
-    }
-
-    .day-dot {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      border: 1.5px solid var(--border-organic);
-      background: var(--cream-acrylic);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.74rem;
-      font-weight: 700;
-      color: var(--text-sub);
-    }
-
-    .day-dot.done {
-      background: var(--sage);
-      color: #fff;
-      border-color: var(--sage);
-    }
-
-    /* 喝水進度區 */
-    .water-summary {
-      font-size: 0.84rem;
-      color: var(--text-sub);
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .badge-goal {
-      background: var(--sage);
-      color: #fff;
-      font-size: 0.72rem;
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-weight: 700;
-    }
-
-    .cups-grid {
-      display: flex;
-      flex-wrap: wrap;
       gap: 8px;
     }
 
-    .cup-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 54px;
-      height: 60px;
-      border-radius: 16px;
-      border: 1.5px solid var(--border-organic);
-      background: var(--cream-acrylic);
-      cursor: pointer;
-      transition: all 0.18s ease;
-      padding: 4px;
-    }
-
-    .cup-btn.filled {
-      background: linear-gradient(180deg, #E4EFE2 0%, #C8DBC3 100%);
-      border-color: var(--sage);
-      transform: translateY(-1px);
-    }
-
-    .cup-ml {
-      font-size: 0.68rem;
+    .water-info-main {
+      font-size: 0.92rem;
       font-weight: 700;
       color: var(--text-main);
+    }
+
+    .water-info-sub {
+      font-size: 0.78rem;
+      color: var(--text-sub);
       margin-top: 2px;
     }
 
-    /* 習慣清單 */
-    .habit-list {
-      display: flex;
-      flex-direction: column;
+    .outline-sm-btn {
+      background: var(--cream-acrylic);
+      border: 1.2px solid var(--border-line);
+      border-radius: 14px;
+      padding: 4px 10px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--sage-dark);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .bottles-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(76px, 1fr));
       gap: 8px;
     }
 
-    .habit-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 12px;
+    .bottle-card {
       background: var(--cream-acrylic);
-      border: 1.5px solid var(--border-organic);
-      border-radius: 16px;
+      border: 1.3px solid var(--border-line);
+      border-radius: 14px;
+      padding: 8px 6px;
+      text-align: center;
       cursor: pointer;
       transition: all 0.15s ease;
     }
 
-    .habit-item.checked {
+    .bottle-card.filled {
       background: var(--sage-soft);
       border-color: var(--sage);
     }
 
-    .habit-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.92rem;
-      font-weight: 500;
+    .bottle-ml-text {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      margin-top: 3px;
     }
 
-    .check-circle {
-      width: 22px;
-      height: 22px;
+    .bottle-card.filled .bottle-ml-text {
+      color: var(--sage-dark);
+    }
+
+    /* 每日習慣小打卡 */
+    .habit-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      color: var(--text-sub);
+      margin-bottom: 10px;
+    }
+
+    .habit-card-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--cream-acrylic);
+      border: 1.3px solid var(--border-line);
+      border-radius: 16px;
+      padding: 11px 13px;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+
+    .habit-card-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .habit-title-txt {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .habit-hint-txt {
+      font-size: 0.74rem;
+      color: var(--text-sub);
+      margin-top: 2px;
+    }
+
+    .circle-check {
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
-      border: 1.8px solid var(--sage);
+      border: 1.6px solid rgba(126, 154, 120, 0.55);
+      background: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #fff;
       color: #fff;
-      font-size: 0.78rem;
+      font-size: 0.82rem;
       font-weight: 700;
       flex-shrink: 0;
     }
 
-    .habit-item.checked .check-circle {
+    .habit-card-item.done .circle-check {
       background: var(--sage);
+      border-color: var(--sage);
     }
 
-    .habit-tag {
-      font-size: 0.72rem;
-      color: var(--text-sub);
-      background: rgba(242, 232, 213, 0.7);
-      padding: 2px 8px;
-      border-radius: 10px;
-    }
-
-    /* 待辦清單 */
-    .todo-switch {
-      display: inline-flex;
-      background: var(--sage-soft);
-      border-radius: 14px;
-      padding: 2px;
-      border: 1px solid var(--border-organic);
-    }
-
-    .todo-switch button {
-      border: none;
-      background: transparent;
-      padding: 3px 10px;
-      border-radius: 11px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--text-sub);
-      cursor: pointer;
-    }
-
-    .todo-switch button.active {
-      background: var(--cream-acrylic);
-      color: var(--sage);
-    }
-
-    .add-row {
+    /* 待辦清單（支援任意日期選擇 + 快捷今日/明日） */
+    .todo-toolbar {
       display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
       gap: 6px;
       margin-bottom: 10px;
     }
 
-    input[type="text"], input[type="number"], textarea {
-      border: 1.5px solid var(--border-organic);
-      background: rgba(255, 253, 248, 0.95);
+    .todo-quick-pills {
+      display: inline-flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .quick-pill {
+      border: 1.2px solid var(--border-line);
+      background: var(--cream-acrylic);
+      color: var(--text-sub);
       border-radius: 14px;
-      padding: 8px 12px;
+      padding: 3px 9px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .quick-pill.active {
+      background: var(--sage);
+      color: #fff;
+      border-color: var(--sage);
+    }
+
+    .date-picker-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--cream-acrylic);
+      border: 1.2px solid var(--border-line);
+      border-radius: 14px;
+      padding: 2px 8px;
+      font-size: 0.76rem;
+      color: var(--sage-dark);
+      font-weight: 700;
+    }
+
+    .date-picker-wrap input[type="date"] {
+      border: none;
+      background: transparent;
+      color: var(--text-main);
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 2px 0;
+      width: auto;
+      outline: none;
+    }
+
+    .todo-target-banner {
+      font-size: 0.78rem;
+      color: var(--sage-dark);
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .todo-item-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--cream-acrylic);
+      border: 1.2px solid var(--border-line);
+      border-radius: 14px;
+      padding: 9px 12px;
+      margin-bottom: 7px;
+    }
+
+    .todo-item-box.completed .todo-label {
+      text-decoration: line-through;
+      color: var(--text-sub);
+    }
+
+    .todo-label {
       font-size: 0.9rem;
       color: var(--text-main);
-      outline: none;
+      word-break: break-word;
+    }
+
+    .todo-input-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    input[type="text"], input[type="number"], textarea {
+      border: 1.4px solid var(--border-line);
+      background: var(--cream-acrylic);
+      border-radius: 16px;
+      padding: 9px 12px;
+      font-size: 0.88rem;
+      color: var(--text-main);
       width: 100%;
+      outline: none;
     }
 
     input:focus, textarea:focus {
       border-color: var(--sage);
     }
 
-    .primary-btn {
+    .add-circle-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: none;
       background: var(--sage);
       color: #fff;
-      border: none;
-      border-radius: 14px;
-      padding: 8px 14px;
-      font-size: 0.86rem;
+      font-size: 1.2rem;
       font-weight: 700;
       cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .todo-row {
+      flex-shrink: 0;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 8px 10px;
-      background: var(--cream-acrylic);
-      border-radius: 14px;
-      border: 1px solid rgba(126, 154, 120, 0.28);
-      margin-bottom: 6px;
+      justify-content: center;
     }
 
-    .todo-row.done span {
-      text-decoration: line-through;
+    .del-x-btn {
+      background: none;
+      border: none;
+      color: #A89F91;
+      font-size: 0.95rem;
+      cursor: pointer;
+      padding: 0 4px;
+    }
+
+    /* 小日記頁面：日期與天氣雙欄 */
+    .two-col-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .date-box-card {
+      border: 1.5px solid var(--border-line);
+      border-radius: 22px;
+      background: var(--cream-acrylic);
+      padding: 12px 10px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .date-big-num {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.15;
+      margin: 2px 0;
+    }
+
+    .weather-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+
+    .weather-opt {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 5px 2px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      font-size: 0.72rem;
       color: var(--text-sub);
     }
 
-    .del-btn {
-      background: none;
-      border: none;
-      color: #B69B94;
-      font-size: 0.95rem;
-      cursor: pointer;
-      padding: 2px 6px;
-    }
-
-    /* 小日記頁面 */
-    .chip-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .choice-chip {
-      padding: 6px 12px;
-      border-radius: 16px;
-      border: 1.5px solid var(--border-organic);
-      background: var(--cream-acrylic);
-      font-size: 0.85rem;
-      color: var(--text-main);
-      cursor: pointer;
-    }
-
-    .choice-chip.active {
-      background: var(--sage-light);
+    .weather-opt.active {
+      background: var(--sage-soft);
       border-color: var(--sage);
+      color: var(--sage-dark);
       font-weight: 700;
     }
 
-    textarea {
-      min-height: 120px;
-      resize: vertical;
-      line-height: 1.6;
-      background-image: linear-gradient(transparent 95%, rgba(126, 154, 120, 0.16) 95%);
-      background-size: 100% 1.6rem;
+    .mood-row-5 {
+      display: flex;
+      justify-content: space-between;
+      gap: 4px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
     }
 
-    /* 彈窗 Modal */
-    .modal-backdrop {
+    .mood-opt {
+      flex: 1;
+      min-width: 54px;
+      text-align: center;
+      padding: 6px 4px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      cursor: pointer;
+    }
+
+    .mood-opt.active {
+      background: var(--sage-soft);
+      border-color: var(--sage);
+      color: var(--sage-dark);
+      font-weight: 700;
+    }
+
+    .acrylic-pad-area {
+      background: linear-gradient(180deg, rgba(244, 236, 219, 0.72) 0%, rgba(255, 253, 248, 0.9) 100%);
+      border-radius: 18px;
+      padding: 10px;
+    }
+
+    textarea.diary-textarea {
+      background: transparent;
+      border: none;
+      min-height: 125px;
+      resize: vertical;
+      line-height: 1.65;
+      padding: 4px;
+    }
+
+    .char-count-right {
+      text-align: right;
+      font-size: 0.74rem;
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+
+    /* Modal 彈窗 */
+    .modal-bg {
       position: fixed;
       inset: 0;
       background: rgba(79, 88, 77, 0.35);
@@ -496,48 +591,58 @@
       align-items: center;
       justify-content: center;
       padding: 16px;
-      z-index: 50;
+      z-index: 60;
     }
 
-    .modal-backdrop.open {
+    .modal-bg.open {
       display: flex;
     }
 
-    .modal-box {
+    .modal-card {
       background: var(--bg-paper);
       border: 2px solid var(--sage);
       border-radius: 24px;
       padding: 18px;
       width: 100%;
-      max-width: 400px;
+      max-width: 390px;
       max-height: 85vh;
       overflow-y: auto;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
     }
 
-    .modal-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--sage);
-      margin: 0 0 12px;
+    .modal-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--sage-dark);
+      margin-bottom: 12px;
     }
 
-    .field-label {
+    .modal-label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
+      font-weight: 700;
       color: var(--text-sub);
       margin: 10px 0 4px;
-      font-weight: 700;
     }
 
-    .preset-row {
+    .preset-chips {
       display: flex;
-      gap: 6px;
       flex-wrap: wrap;
+      gap: 6px;
       margin-bottom: 8px;
+    }
+
+    .save-btn {
+      background: var(--sage);
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      padding: 8px 16px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      cursor: pointer;
     }
 
     .hidden { display: none !important; }
@@ -564,665 +669,687 @@
 </head>
 <body>
   <div class="app-shell">
-    <header>
-      <div class="title-wrap" id="editTitleTrigger" title="點選可自訂專屬標題">
-        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#7E9A78" stroke-width="2" stroke-linecap="round">
-          <path d="M12 20C12 13 16 7 21 4C15 5 11 9 10 15"/>
-          <path d="M11 13C8 10 5 9 3 9C5 12 7 14 10 15"/>
-        </svg>
-        <h1 id="appTitleDisplay">今日亭好，勻淡風輕</h1>
-        <svg class="edit-title-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 頂部標題與狀態列 -->
+    <header class="top-header">
+      <div class="title-clickable" id="editTitleBtn" title="點選編輯標題">
+        <h1 class="main-title" id="displayAppTitle">今日亭好，勻淡風輕</h1>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#828C7F" stroke-width="2" stroke-linecap="round">
           <path d="M12 20h9"/>
           <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
         </svg>
       </div>
-      <div class="subtitle-bar">
-        <div class="date-pill">
-          <button class="icon-btn" id="prevDayBtn" title="前一天">‹</button>
-          <span id="currentDateLabel" style="font-weight:700;color:#4F584D;"></span>
-          <button class="icon-btn" id="nextDayBtn" title="後一天">›</button>
+      <div class="sub-caption">每天都值得被溫柔記住</div>
+
+      <div class="status-pill-row">
+        <div class="status-pill">
+          <span>✦</span>
+          <span id="checkinStatusText">今日簽到中</span>
         </div>
-        <button class="mini-action" id="todayBtn">回今天</button>
+        <button class="pill-action" id="openBackupBtn">備份 / 還原</button>
       </div>
     </header>
 
-    <div class="nav-row">
-      <div class="tabs">
-        <button class="tab-btn active" data-tab="home">今日總覽</button>
-        <button class="tab-btn" data-tab="diary">小日記</button>
-      </div>
-      <button class="backup-btn" id="openBackupBtn">備份 / 還原</button>
+    <!-- 分頁切換膠囊 -->
+    <div class="segment-bar">
+      <button class="segment-btn active" data-page="home">✦ 今日總覽</button>
+      <button class="segment-btn" data-page="diary">✎ 小日記</button>
     </div>
 
-    <!-- 分頁一：今日總覽（首頁） -->
-    <main id="homeView">
-      <section class="card">
-        <div class="card-header">
-          <span class="card-title">本週小足跡</span>
-          <span id="streakBadge" style="font-size:0.78rem;color:var(--sage);font-weight:700;"></span>
+    <!-- 分頁一：今日總覽（完全還原截圖首頁結構） -->
+    <main id="pageHome">
+      <!-- 日期摘要卡 -->
+      <section class="summary-date-card">
+        <div>
+          <div class="summary-date-title" id="homeDateTitle">11月21日 星期六</div>
+          <div class="summary-date-sub" id="homeDiaryPreview">今天的小日記還沒寫喔，留幾句話...</div>
         </div>
-        <div class="week-strip" id="weekStrip"></div>
+        <button class="write-pill-btn" id="jumpToDiaryBtn">✎ 寫小日記</button>
       </section>
 
-      <section class="card">
-        <div class="card-header">
-          <span class="card-title">今日喝水進度</span>
-          <button class="mini-action" id="openWaterModalBtn">水壺設定</button>
+      <!-- 每日喝水紀錄 -->
+      <section class="framed-section">
+        <div class="section-heading-row">
+          <div class="section-heading-line"></div>
+          <span class="section-heading-text">每日喝水紀錄</span>
+          <div class="section-heading-line"></div>
         </div>
-        <div class="water-summary">
-          <span id="waterProgressText">0 / 2000 ml</span>
-          <span class="badge-goal hidden" id="waterGoalBadge">今日飲水達標</span>
+        <div class="acrylic-wash">
+          <div class="water-top">
+            <div>
+              <div class="water-info-main" id="waterSummaryMain">喝水量：0 / 2000 ml · 0%</div>
+              <div class="water-info-sub" id="waterSummarySub">目前水壺：500 ml（共 4 壺）</div>
+            </div>
+            <button class="outline-sm-btn" id="openWaterBtn">水壺設定</button>
+          </div>
+          <div class="bottles-row" id="bottlesContainer"></div>
         </div>
-        <div class="cups-grid" id="cupsGrid"></div>
       </section>
 
-      <section class="card">
-        <div class="card-header">
-          <span class="card-title">日常小習慣</span>
-          <button class="mini-action" id="openHabitModalBtn">編輯習慣</button>
+      <!-- 每日習慣小打卡 -->
+      <section class="framed-section">
+        <div class="section-heading-row">
+          <div class="section-heading-line"></div>
+          <span class="section-heading-text">每日習慣小打卡</span>
+          <div class="section-heading-line"></div>
         </div>
-        <div class="habit-list" id="habitList"></div>
+        <div class="habit-meta-row">
+          <span id="habitCountText">完成 0 / 3</span>
+          <button class="outline-sm-btn" id="openHabitBtn">編輯習慣</button>
+        </div>
+        <div class="acrylic-wash">
+          <div id="homeHabitContainer"></div>
+        </div>
       </section>
 
-      <section class="card">
-        <div class="card-header">
-          <span class="card-title">待辦小清單</span>
-          <div class="todo-switch">
-            <button class="active" data-todo-day="today" id="todoTabToday">今日待辦</button>
-            <button data-todo-day="tomorrow" id="todoTabTomorrow">明日待辦</button>
+      <!-- 待辦清單（支援任意日期選擇 + 今日/明日快捷切換） -->
+      <section class="framed-section">
+        <div class="section-heading-row">
+          <div class="section-heading-line"></div>
+          <span class="section-heading-text">待辦清單</span>
+          <div class="section-heading-line"></div>
+        </div>
+
+        <div class="todo-toolbar">
+          <div class="todo-quick-pills">
+            <button class="quick-pill active" id="pillToday">今天</button>
+            <button class="quick-pill" id="pillTomorrow">明天</button>
+          </div>
+          <div class="date-picker-wrap">
+            <span>選日期</span>
+            <input type="date" id="todoDatePicker" />
           </div>
         </div>
-        <div class="add-row">
-          <input type="text" id="homeTodoInput" placeholder="新增一件待辦小事..." />
-          <button class="primary-btn" id="homeAddTodoBtn">新增</button>
+
+        <div class="todo-target-banner">
+          <span id="todoTargetLabel">正在檢視：11月21日 (週六)</span>
+          <span id="todoRemainCount"></span>
         </div>
-        <div id="homeTodoList"></div>
+
+        <div class="acrylic-wash">
+          <div id="homeTodoListBox"></div>
+          <div class="todo-input-row">
+            <input type="text" id="homeTodoInput" placeholder="新增待辦小任務..." />
+            <button class="add-circle-btn" id="homeTodoAddBtn" title="新增">+</button>
+          </div>
+        </div>
       </section>
     </main>
 
-    <!-- 分頁二：小日記 -->
-    <main id="diaryView" class="hidden">
-      <section class="card">
-        <div class="card-header">
-          <span class="card-title">今日天氣與氣溫</span>
+    <!-- 分頁二：小日記（完全還原截圖版面） -->
+    <main id="pageDiary" class="hidden">
+      <div class="two-col-row">
+        <!-- 左側日期卡 -->
+        <div class="date-box-card">
+          <div style="font-size:0.78rem;color:var(--text-sub);">日期</div>
+          <div style="font-size:0.78rem;color:var(--text-sub);margin-top:4px;" id="diaryYearMonth">2026年 11月</div>
+          <div class="date-big-num" id="diaryDayNum">21</div>
+          <div style="font-size:0.82rem;font-weight:700;color:var(--text-main);" id="diaryWeekday">星期六</div>
         </div>
-        <div class="chip-group" id="weatherGroup"></div>
-        <input type="text" id="tempInput" placeholder="寫個氣溫或小註解（例如：24°C 微風剛剛好）" />
+
+        <!-- 右側天氣卡 -->
+        <div class="date-box-card" style="padding:10px 8px;">
+          <div style="font-size:0.84rem;font-weight:700;color:var(--sage-dark);margin-bottom:6px;">天氣</div>
+          <div class="weather-grid-4" id="diaryWeatherGrid"></div>
+          <input type="text" id="diaryWeatherNote" placeholder="輸入氣溫或天氣小記..." style="font-size:0.76rem;padding:6px 8px;border-radius:12px;" />
+        </div>
+      </div>
+
+      <!-- 心情框 -->
+      <section class="framed-section">
+        <div class="section-heading-row">
+          <div class="section-heading-line"></div>
+          <span class="section-heading-text">心情</span>
+          <div class="section-heading-line"></div>
+        </div>
+        <div class="mood-row-5" id="diaryMoodRow"></div>
+        <div class="acrylic-pad-area">
+          <input type="text" id="diaryMoodNote" placeholder="寫下一句今天的心情註解..." style="background:transparent;border:none;padding:4px;" />
+        </div>
       </section>
 
-      <section class="card">
-        <div class="card-header">
-          <span class="card-title">現在的心情</span>
+      <!-- 今日小事框 -->
+      <section class="framed-section">
+        <div class="section-heading-row">
+          <div class="section-heading-line"></div>
+          <span class="section-heading-text">今日小事</span>
+          <div class="section-heading-line"></div>
         </div>
-        <div class="chip-group" id="moodGroup"></div>
-        <input type="text" id="moodNoteInput" placeholder="一句話形容今天的心情..." />
-      </section>
-
-      <section class="card">
-        <div class="card-header">
-          <span class="card-title">今日小事</span>
-          <span style="font-size:0.75rem;color:var(--text-sub);">填寫後自動完成日記打卡</span>
+        <div class="acrylic-pad-area">
+          <textarea class="diary-textarea" id="diaryStoryInput" placeholder="記錄今天發生的小美好、吃到喜歡的食物，或是想感謝的事..."></textarea>
+          <div class="char-count-right" id="diaryCharCount">0 字</div>
         </div>
-        <textarea id="diaryNoteInput" placeholder="記下今天發生的小美好、好吃的東西，或想對自己說的話..."></textarea>
       </section>
     </main>
   </div>
 
-  <!-- 編輯專屬標題 Modal -->
-  <div class="modal-backdrop" id="titleModal">
-    <div class="modal-box">
-      <div class="modal-title">
-        <span>編輯專屬日記標題</span>
-        <button class="icon-btn" onclick="closeModal('titleModal')">✕</button>
+  <!-- 編輯標題 Modal -->
+  <div class="modal-bg" id="titleModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <span>編輯專屬標題</span>
+        <button class="del-x-btn" onclick="closeModal('titleModal')">✕</button>
       </div>
-      <label class="field-label">輸入你喜歡的標題（會自動保存）</label>
-      <input type="text" id="customTitleInput" placeholder="例如：今日亭好，勻淡風輕" maxlength="24" />
-      <label class="field-label">快速套用靈感</label>
-      <div class="preset-row">
-        <button class="mini-action" onclick="setTitlePreset('今日亭好，勻淡風輕')">今日亭好，勻淡風輕</button>
-        <button class="mini-action" onclick="setTitlePreset('每日打卡小日記')">每日打卡小日記</button>
+      <label class="modal-label">自訂標題文字</label>
+      <input type="text" id="titleInput" maxlength="24" />
+      <label class="modal-label">快速套用</label>
+      <div class="preset-chips">
+        <button class="outline-sm-btn" onclick="setTitleVal('今日亭好，勻淡風輕')">今日亭好，勻淡風輕</button>
+        <button class="outline-sm-btn" onclick="setTitleVal('每日打卡小日記')">每日打卡小日記</button>
       </div>
       <div style="margin-top:14px;text-align:right;">
-        <button class="primary-btn" id="saveTitleBtn">儲存標題</button>
+        <button class="save-btn" id="saveTitleBtn">儲存標題</button>
       </div>
     </div>
   </div>
 
   <!-- 水壺設定 Modal -->
-  <div class="modal-backdrop" id="waterModal">
-    <div class="modal-box">
-      <div class="modal-title">
+  <div class="modal-bg" id="waterModal">
+    <div class="modal-card">
+      <div class="modal-head">
         <span>水壺與飲水目標設定</span>
-        <button class="icon-btn" onclick="closeModal('waterModal')">✕</button>
+        <button class="del-x-btn" onclick="closeModal('waterModal')">✕</button>
       </div>
-      <label class="field-label">快速選擇水壺容量 (ml)</label>
-      <div class="preset-row">
-        <button class="mini-action" onclick="setBottlePreset(250)">250 ml</button>
-        <button class="mini-action" onclick="setBottlePreset(350)">350 ml</button>
-        <button class="mini-action" onclick="setBottlePreset(500)">500 ml</button>
-        <button class="mini-action" onclick="setBottlePreset(750)">750 ml</button>
-        <button class="mini-action" onclick="setBottlePreset(1000)">1000 ml</button>
+      <label class="modal-label">水壺容量 (ml)</label>
+      <div class="preset-chips">
+        <button class="outline-sm-btn" onclick="setBottleVal(250)">250</button>
+        <button class="outline-sm-btn" onclick="setBottleVal(350)">350</button>
+        <button class="outline-sm-btn" onclick="setBottleVal(500)">500</button>
+        <button class="outline-sm-btn" onclick="setBottleVal(750)">750</button>
       </div>
-      <label class="field-label">我的水壺容量 (ml)</label>
-      <input type="number" id="bottleSizeInput" min="50" max="3000" step="50" />
-      <label class="field-label">每日喝水目標 (ml)</label>
-      <input type="number" id="waterGoalInput" min="200" max="6000" step="100" />
+      <input type="number" id="bottleInput" min="50" max="3000" step="50" />
+      <label class="modal-label">每日喝水目標 (ml)</label>
+      <input type="number" id="goalInput" min="200" max="6000" step="100" />
       <div style="margin-top:14px;text-align:right;">
-        <button class="primary-btn" id="saveWaterSettingsBtn">儲存設定</button>
+        <button class="save-btn" id="saveWaterBtn">儲存設定</button>
       </div>
     </div>
   </div>
 
   <!-- 習慣編輯 Modal -->
-  <div class="modal-backdrop" id="habitModal">
-    <div class="modal-box">
-      <div class="modal-title">
-        <span>自訂日常習慣（不限數量）</span>
-        <button class="icon-btn" onclick="closeModal('habitModal')">✕</button>
+  <div class="modal-bg" id="habitModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <span>編輯日常習慣（不限數量）</span>
+        <button class="del-x-btn" onclick="closeModal('habitModal')">✕</button>
       </div>
-      <div class="add-row">
-        <input type="text" id="newHabitInput" placeholder="輸入新習慣名稱..." />
-        <button class="primary-btn" id="addHabitBtn">新增</button>
+      <div class="todo-input-row" style="margin-top:0;margin-bottom:10px;">
+        <input type="text" id="newHabitNameInput" placeholder="新增習慣名稱..." />
+        <button class="add-circle-btn" id="addHabitConfirmBtn">+</button>
       </div>
-      <div id="editHabitList" style="display:flex;flex-direction:column;gap:8px;margin-top:8px;"></div>
+      <div id="habitEditRows" style="display:flex;flex-direction:column;gap:8px;"></div>
     </div>
   </div>
 
   <!-- 備份與還原 Modal -->
-  <div class="modal-backdrop" id="backupModal">
-    <div class="modal-box">
-      <div class="modal-title">
-        <span>資料備份與還原</span>
-        <button class="icon-btn" onclick="closeModal('backupModal')">✕</button>
+  <div class="modal-bg" id="backupModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <span>備份與還原</span>
+        <button class="del-x-btn" onclick="closeModal('backupModal')">✕</button>
       </div>
-      <p style="font-size:0.83rem;color:var(--text-sub);line-height:1.5;margin-top:0;">
-        所有打卡與日記預設保存在此手機瀏覽器中（包含自訂標題、習慣與每日紀錄）。建議定期下載備份檔（.json），換手機或分享給朋友重新命名時都能隨時匯入還原！
+      <p style="font-size:0.82rem;color:var(--text-sub);line-height:1.5;margin-top:0;">
+        資料儲存在此裝置瀏覽器中。可匯出 .json 備份檔保存，或隨時選擇備份檔還原。
       </p>
-      <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px;">
-        <button class="primary-btn" id="exportBackupBtn" style="width:100%;padding:10px;">下載完整備份檔 (.json)</button>
-        <label class="mini-action" style="text-align:center;padding:10px;display:block;cursor:pointer;">
-          選擇備份檔還原資料
-          <input type="file" id="importBackupInput" accept=".json" style="display:none;" />
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button class="save-btn" id="exportJsonBtn" style="width:100%;">下載備份檔 (.json)</button>
+        <label class="outline-sm-btn" style="text-align:center;padding:9px;cursor:pointer;">
+          匯入備份檔還原
+          <input type="file" id="importJsonFile" accept=".json" style="display:none;" />
         </label>
       </div>
     </div>
   </div>
 
-  <div class="toast" id="toast"></div>
+  <div class="toast" id="toastBox"></div>
 
   <script>
-    const STORAGE_KEY = 'tingyun_daily_journal_v1';
+    const STORAGE_KEY = 'tingyun_journal_v4_data';
 
-    function formatDateKey(dateObj) {
-      const y = dateObj.getFullYear();
-      const m = String(dateObj.getMonth() + 1).padStart(2, '0');
-      const d = String(dateObj.getDate()).padStart(2, '0');
+    function toDateStr(dt) {
+      const y = dt.getFullYear();
+      const m = String(dt.getMonth() + 1).padStart(2, '0');
+      const d = String(dt.getDate()).padStart(2, '0');
       return `${y}-${m}-${d}`;
     }
 
-    function parseDateKey(key) {
-      const [y, m, d] = key.split('-').map(Number);
+    function parseDateStr(str) {
+      const [y, m, d] = str.split('-').map(Number);
       return new Date(y, m - 1, d);
     }
 
-    function addDays(key, delta) {
-      const dt = parseDateKey(key);
-      dt.setDate(dt.getDate() + delta);
-      return formatDateKey(dt);
+    function shiftDateStr(str, diffDays) {
+      const dt = parseDateStr(str);
+      dt.setDate(dt.getDate() + diffDays);
+      return toDateStr(dt);
     }
 
-    const defaultState = {
+    const defaultData = {
       settings: {
         appTitle: '今日亭好，勻淡風輕',
         bottleMl: 500,
-        waterGoalMl: 2000,
+        goalMl: 2000,
         habits: [
-          { id: 'h_diary', name: '寫一篇小日記', autoDiary: true },
-          { id: 'h_1', name: '睡前伸展放鬆 10 分鐘', autoDiary: false },
-          { id: 'h_2', name: '補充益生菌', autoDiary: false }
+          { id: 'hb_1', name: '早起喝一杯溫水', hint: '', autoDiary: false },
+          { id: 'hb_2', name: '寫一篇小日記', hint: '填寫小日記時會自動打勾', autoDiary: true },
+          { id: 'hb_3', name: '伸展放鬆 10 分鐘', hint: '', autoDiary: false }
         ]
       },
       days: {}
     };
 
-    let state = loadState();
-    let selectedDate = formatDateKey(new Date());
-    let todoViewTarget = 'today';
+    let appData = loadAppData();
+    const todayStr = toDateStr(new Date());
+    let activeTodoDate = todayStr; // 待辦清單可選任意日期，預設今天
 
-    function loadState() {
+    function loadAppData() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return JSON.parse(JSON.stringify(defaultState));
-        const parsed = JSON.parse(raw);
+        if (!raw) return JSON.parse(JSON.stringify(defaultData));
+        const obj = JSON.parse(raw);
         return {
-          settings: { ...defaultState.settings, ...(parsed.settings || {}) },
-          days: parsed.days || {}
+          settings: { ...defaultData.settings, ...(obj.settings || {}) },
+          days: obj.days || {}
         };
       } catch (e) {
-        return JSON.parse(JSON.stringify(defaultState));
+        return JSON.parse(JSON.stringify(defaultData));
       }
     }
 
-    function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    function persistAppData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
     }
 
-    function getDayData(dateKey) {
-      if (!state.days[dateKey]) {
-        state.days[dateKey] = {
-          cupsFilled: 0,
-          completedHabits: [],
+    function ensureDay(dStr) {
+      if (!appData.days[dStr]) {
+        appData.days[dStr] = {
+          filledBottles: 0,
+          doneHabits: [],
           todos: [],
-          weather: '',
-          temp: '',
-          mood: '',
+          weather: '晴天',
+          weatherNote: '',
+          mood: '開心',
           moodNote: '',
-          diaryNote: ''
+          story: ''
         };
       }
-      return state.days[dateKey];
+      return appData.days[dStr];
     }
 
     function showToast(msg) {
-      const el = document.getElementById('toast');
-      el.textContent = msg;
-      el.classList.add('show');
-      setTimeout(() => el.classList.remove('show'), 2000);
+      const box = document.getElementById('toastBox');
+      box.textContent = msg;
+      box.classList.add('show');
+      setTimeout(() => box.classList.remove('show'), 1900);
     }
 
-    function renderHeaderAndWeek() {
-      const titleText = (state.settings.appTitle || '今日亭好，勻淡風輕').trim();
-      document.getElementById('appTitleDisplay').textContent = titleText;
-      document.title = titleText;
-
-      const dt = parseDateKey(selectedDate);
-      const weekNames = ['日', '一', '二', '三', '四', '五', '六'];
-      const todayKey = formatDateKey(new Date());
-      const tag = selectedDate === todayKey ? ' · 今天' : '';
-      document.getElementById('currentDateLabel').textContent =
-        `${dt.getMonth() + 1}月${dt.getDate()}日 (週${weekNames[dt.getDay()]})${tag}`;
-
-      const strip = document.getElementById('weekStrip');
-      strip.innerHTML = '';
-      let streak = 0;
-      for (let i = 6; i >= 0; i--) {
-        const k = addDays(todayKey, -i);
-        const dObj = parseDateKey(k);
-        const dData = state.days[k];
-        const hasActivity = dData && (
-          dData.cupsFilled > 0 ||
-          (dData.completedHabits && dData.completedHabits.length > 0) ||
-          (dData.diaryNote && dData.diaryNote.trim().length > 0)
-        );
-        if (hasActivity) streak++;
-
-        const item = document.createElement('div');
-        item.className = 'day-dot-item' + (k === selectedDate ? ' selected' : '');
-        item.innerHTML = `
-          <span class="day-dot-label">${weekNames[dObj.getDay()]}</span>
-          <div class="day-dot ${hasActivity ? 'done' : ''}">${dObj.getDate()}</div>
-        `;
-        item.onclick = () => {
-          selectedDate = k;
-          renderAll();
-        };
-        strip.appendChild(item);
-      }
-      document.getElementById('streakBadge').textContent = `近7日打卡 ${streak} 天`;
-    }
-
-    function renderWater() {
-      const day = getDayData(selectedDate);
-      const { bottleMl, waterGoalMl } = state.settings;
-      const totalCups = Math.max(1, Math.ceil(waterGoalMl / bottleMl));
-      const currentMl = day.cupsFilled * bottleMl;
-
-      document.getElementById('waterProgressText').textContent =
-        `${currentMl} / ${waterGoalMl} ml（每壺 ${bottleMl} ml）`;
-
-      const badge = document.getElementById('waterGoalBadge');
-      if (currentMl >= waterGoalMl) badge.classList.remove('hidden');
-      else badge.classList.add('hidden');
-
-      const grid = document.getElementById('cupsGrid');
-      grid.innerHTML = '';
-      for (let i = 1; i <= totalCups; i++) {
-        const filled = i <= day.cupsFilled;
-        const btn = document.createElement('button');
-        btn.className = 'cup-btn' + (filled ? ' filled' : '');
-        btn.innerHTML = `
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="${filled ? '#7E9A78' : 'none'}" stroke="#7E9A78" stroke-width="1.8">
-            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
-          </svg>
-          <span class="cup-ml">${bottleMl}ml</span>
-        `;
-        btn.onclick = () => {
-          day.cupsFilled = (day.cupsFilled === i) ? i - 1 : i;
-          saveState();
-          renderWater();
-          renderHeaderAndWeek();
-        };
-        grid.appendChild(btn);
-      }
-    }
-
-    function renderHabits() {
-      const day = getDayData(selectedDate);
-      const hasDiary = Boolean((day.diaryNote && day.diaryNote.trim()) || day.mood || day.weather);
-      const list = document.getElementById('habitList');
-      list.innerHTML = '';
-
-      if (state.settings.habits.length === 0) {
-        list.innerHTML = `<div style="font-size:0.84rem;color:var(--text-sub);text-align:center;padding:8px;">尚未設定習慣，點右上角「編輯習慣」新增吧！</div>`;
-        return;
-      }
-
-      state.settings.habits.forEach(habit => {
-        const isChecked = habit.autoDiary
-          ? (hasDiary || day.completedHabits.includes(habit.id))
-          : day.completedHabits.includes(habit.id);
-
-        const row = document.createElement('div');
-        row.className = 'habit-item' + (isChecked ? ' checked' : '');
-        row.innerHTML = `
-          <div class="habit-left">
-            <div class="check-circle">${isChecked ? '✓' : ''}</div>
-            <span>${habit.name}</span>
-          </div>
-          ${habit.autoDiary ? '<span class="habit-tag">小日記連動</span>' : ''}
-        `;
-        row.onclick = () => {
-          const idx = day.completedHabits.indexOf(habit.id);
-          if (idx >= 0) day.completedHabits.splice(idx, 1);
-          else day.completedHabits.push(habit.id);
-          saveState();
-          renderHabits();
-          renderHeaderAndWeek();
-        };
-        list.appendChild(row);
-      });
-    }
-
-    function renderTodos() {
-      const targetDateKey = todoViewTarget === 'today' ? selectedDate : addDays(selectedDate, 1);
-      const targetDay = getDayData(targetDateKey);
-      const container = document.getElementById('homeTodoList');
-      container.innerHTML = '';
-
-      if (!targetDay.todos || targetDay.todos.length === 0) {
-        container.innerHTML = `<div style="font-size:0.83rem;color:var(--text-sub);text-align:center;padding:8px;">${todoViewTarget === 'today' ? '今天' : '明天'}還沒有待辦事項喔～</div>`;
-        return;
-      }
-
-      targetDay.todos.forEach((todo, index) => {
-        const row = document.createElement('div');
-        row.className = 'todo-row' + (todo.done ? ' done' : '');
-        row.innerHTML = `
-          <div style="display:flex;align-items:center;gap:8px;cursor:pointer;flex:1;">
-            <div class="check-circle" style="width:19px;height:19px;font-size:0.7rem;${todo.done ? 'background:var(--sage);' : ''}">${todo.done ? '✓' : ''}</div>
-            <span style="font-size:0.9rem;">${todo.text}</span>
-          </div>
-          <button class="del-btn" title="刪除">✕</button>
-        `;
-        row.querySelector('div').onclick = () => {
-          todo.done = !todo.done;
-          saveState();
-          renderTodos();
-        };
-        row.querySelector('.del-btn').onclick = () => {
-          targetDay.todos.splice(index, 1);
-          saveState();
-          renderTodos();
-        };
-        container.appendChild(row);
-      });
-    }
-
-    const WEATHER_OPTIONS = ['晴朗好天氣', '雲朵飄飄', '微涼有風', '綿綿小雨', '太陽公公躲起來'];
-    const MOOD_OPTIONS = ['心花開', '平靜安穩', '小小確幸', '放空發呆', '有點疲憊'];
-
-    function renderDiary() {
-      const day = getDayData(selectedDate);
-      const wGroup = document.getElementById('weatherGroup');
-      wGroup.innerHTML = '';
-      WEATHER_OPTIONS.forEach(w => {
-        const btn = document.createElement('button');
-        btn.className = 'choice-chip' + (day.weather === w ? ' active' : '');
-        btn.textContent = w;
-        btn.onclick = () => {
-          day.weather = day.weather === w ? '' : w;
-          saveState();
-          renderDiary();
-          renderHabits();
-        };
-        wGroup.appendChild(btn);
-      });
-
-      const mGroup = document.getElementById('moodGroup');
-      mGroup.innerHTML = '';
-      MOOD_OPTIONS.forEach(m => {
-        const btn = document.createElement('button');
-        btn.className = 'choice-chip' + (day.mood === m ? ' active' : '');
-        btn.textContent = m;
-        btn.onclick = () => {
-          day.mood = day.mood === m ? '' : m;
-          saveState();
-          renderDiary();
-          renderHabits();
-        };
-        mGroup.appendChild(btn);
-      });
-
-      document.getElementById('tempInput').value = day.temp || '';
-      document.getElementById('moodNoteInput').value = day.moodNote || '';
-      document.getElementById('diaryNoteInput').value = day.diaryNote || '';
-    }
+    const WEEK_CN = ['日', '一', '二', '三', '四', '五', '六'];
+    const WEATHER_ITEMS = [
+      { key: '晴天', icon: '☀' },
+      { key: '多雲', icon: '☁' },
+      { key: '雨天', icon: '☔' },
+      { key: '微風', icon: '≋' }
+    ];
+    const MOOD_ITEMS = ['☺ 開心', '☺ 平靜', '♡ 確幸', '☺ 放空', '☺ 疲憊'];
 
     function renderAll() {
-      renderHeaderAndWeek();
-      renderWater();
-      renderHabits();
-      renderTodos();
-      renderDiary();
+      const title = (appData.settings.appTitle || '今日亭好，勻淡風輕').trim();
+      document.getElementById('displayAppTitle').textContent = title;
+      document.title = title;
+
+      const todayObj = parseDateStr(todayStr);
+      const todayDay = ensureDay(todayStr);
+
+      // 首頁日期摘要
+      document.getElementById('homeDateTitle').textContent =
+        `${todayObj.getMonth() + 1}月${todayObj.getDate()}日 星期${WEEK_CN[todayObj.getDay()]}`;
+      const preview = (todayDay.story || '').trim();
+      document.getElementById('homeDiaryPreview').textContent =
+        preview ? preview.slice(0, 28) + (preview.length > 28 ? '...' : '') : '今天的小日記還沒寫喔，留幾句話...';
+
+      // 小日記日期卡
+      document.getElementById('diaryYearMonth').textContent =
+        `${todayObj.getFullYear()}年 ${todayObj.getMonth() + 1}月`;
+      document.getElementById('diaryDayNum').textContent = todayObj.getDate();
+      document.getElementById('diaryWeekday').textContent = `星期${WEEK_CN[todayObj.getDay()]}`;
+
+      renderWaterUI(todayDay);
+      renderHabitsUI(todayDay);
+      renderTodosUI();
+      renderDiaryUI(todayDay);
     }
 
-    // 分頁與日期控制
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.onclick = () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const tab = btn.dataset.tab;
-        document.getElementById('homeView').classList.toggle('hidden', tab !== 'home');
-        document.getElementById('diaryView').classList.toggle('hidden', tab !== 'diary');
-      };
-    });
+    function renderWaterUI(todayDay) {
+      const { bottleMl, goalMl } = appData.settings;
+      const totalBottles = Math.max(1, Math.ceil(goalMl / bottleMl));
+      const currentMl = todayDay.filledBottles * bottleMl;
+      const pct = Math.min(100, Math.round((currentMl / goalMl) * 100));
 
-    document.getElementById('prevDayBtn').onclick = () => {
-      selectedDate = addDays(selectedDate, -1);
-      renderAll();
-    };
-    document.getElementById('nextDayBtn').onclick = () => {
-      selectedDate = addDays(selectedDate, 1);
-      renderAll();
-    };
-    document.getElementById('todayBtn').onclick = () => {
-      selectedDate = formatDateKey(new Date());
-      renderAll();
-    };
+      document.getElementById('waterSummaryMain').textContent =
+        `喝水量：${currentMl} / ${goalMl} ml · ${pct}%`;
+      document.getElementById('waterSummarySub').textContent =
+        `目前水壺：${bottleMl} ml（共 ${totalBottles} 壺）`;
 
-    // 標題自訂控制
-    document.getElementById('editTitleTrigger').onclick = () => {
-      document.getElementById('customTitleInput').value = state.settings.appTitle || '今日亭好，勻淡風輕';
-      document.getElementById('titleModal').classList.add('open');
-    };
-
-    window.setTitlePreset = function(txt) {
-      document.getElementById('customTitleInput').value = txt;
-    };
-
-    document.getElementById('saveTitleBtn').onclick = () => {
-      const val = document.getElementById('customTitleInput').value.trim();
-      if (val) {
-        state.settings.appTitle = val;
-        saveState();
-        renderHeaderAndWeek();
-        closeModal('titleModal');
-        showToast('專屬標題已更新！');
+      const container = document.getElementById('bottlesContainer');
+      container.innerHTML = '';
+      for (let i = 1; i <= totalBottles; i++) {
+        const isFilled = i <= todayDay.filledBottles;
+        const card = document.createElement('div');
+        card.className = 'bottle-card' + (isFilled ? ' filled' : '');
+        card.innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="${isFilled ? '#7E9A78' : 'none'}" stroke="#7E9A78" stroke-width="1.8">
+            <path d="M10 2h4v3l2 3v12a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V8l2-3V2z"/>
+          </svg>
+          <div class="bottle-ml-text">${i * bottleMl}</div>
+        `;
+        card.onclick = () => {
+          todayDay.filledBottles = (todayDay.filledBottles === i) ? i - 1 : i;
+          persistAppData();
+          renderWaterUI(todayDay);
+        };
+        container.appendChild(card);
       }
-    };
-
-    // 今日 / 明日待辦
-    document.getElementById('todoTabToday').onclick = () => {
-      todoViewTarget = 'today';
-      document.getElementById('todoTabToday').classList.add('active');
-      document.getElementById('todoTabTomorrow').classList.remove('active');
-      renderTodos();
-    };
-    document.getElementById('todoTabTomorrow').onclick = () => {
-      todoViewTarget = 'tomorrow';
-      document.getElementById('todoTabTomorrow').classList.add('active');
-      document.getElementById('todoTabToday').classList.remove('active');
-      renderTodos();
-    };
-
-    function addTodoFromHome() {
-      const input = document.getElementById('homeTodoInput');
-      const text = input.value.trim();
-      if (!text) return;
-      const targetDateKey = todoViewTarget === 'today' ? selectedDate : addDays(selectedDate, 1);
-      const targetDay = getDayData(targetDateKey);
-      targetDay.todos.push({ text, done: false });
-      input.value = '';
-      saveState();
-      renderTodos();
     }
-    document.getElementById('homeAddTodoBtn').onclick = addTodoFromHome;
-    document.getElementById('homeTodoInput').addEventListener('keydown', e => {
-      if (e.key === 'Enter') addTodoFromHome();
-    });
 
-    // 小日記即時儲存
-    ['tempInput', 'moodNoteInput', 'diaryNoteInput'].forEach(id => {
-      document.getElementById(id).addEventListener('input', e => {
-        const day = getDayData(selectedDate);
-        if (id === 'tempInput') day.temp = e.target.value;
-        if (id === 'moodNoteInput') day.moodNote = e.target.value;
-        if (id === 'diaryNoteInput') day.diaryNote = e.target.value;
-        saveState();
-        renderHabits();
-        renderHeaderAndWeek();
+    function renderHabitsUI(todayDay) {
+      const habits = appData.settings.habits;
+      const hasStory = Boolean((todayDay.story || '').trim() || (todayDay.moodNote || '').trim());
+      let doneCount = 0;
+
+      const box = document.getElementById('homeHabitContainer');
+      box.innerHTML = '';
+
+      if (habits.length === 0) {
+        box.innerHTML = `<div style="font-size:0.82rem;color:var(--text-sub);text-align:center;padding:6px;">尚未新增習慣，點「編輯習慣」建立吧</div>`;
+        document.getElementById('habitCountText').textContent = '完成 0 / 0';
+        return;
+      }
+
+      habits.forEach(hb => {
+        const checked = hb.autoDiary
+          ? (hasStory || todayDay.doneHabits.includes(hb.id))
+          : todayDay.doneHabits.includes(hb.id);
+        if (checked) doneCount++;
+
+        const row = document.createElement('div');
+        row.className = 'habit-card-item' + (checked ? ' done' : '');
+        row.innerHTML = `
+          <div>
+            <div class="habit-title-txt">${hb.name}</div>
+            ${hb.hint ? `<div class="habit-hint-txt">${hb.hint}</div>` : ''}
+          </div>
+          <div class="circle-check">${checked ? '✓' : ''}</div>
+        `;
+        row.onclick = () => {
+          const idx = todayDay.doneHabits.indexOf(hb.id);
+          if (idx >= 0) todayDay.doneHabits.splice(idx, 1);
+          else todayDay.doneHabits.push(hb.id);
+          persistAppData();
+          renderHabitsUI(todayDay);
+        };
+        box.appendChild(row);
       });
+
+      document.getElementById('habitCountText').textContent = `完成 ${doneCount} / ${habits.length}`;
+    }
+
+    function renderTodosUI() {
+      const tomorrowStr = shiftDateStr(todayStr, 1);
+      document.getElementById('pillToday').classList.toggle('active', activeTodoDate === todayStr);
+      document.getElementById('pillTomorrow').classList.toggle('active', activeTodoDate === tomorrowStr);
+      document.getElementById('todoDatePicker').value = activeTodoDate;
+
+      const dObj = parseDateStr(activeTodoDate);
+      const labelPrefix = activeTodoDate === todayStr ? '今天 · ' : (activeTodoDate === tomorrowStr ? '明天 · ' : '');
+      document.getElementById('todoTargetLabel').textContent =
+        `${labelPrefix}${dObj.getMonth() + 1}月${dObj.getDate()}日 (週${WEEK_CN[dObj.getDay()]})`;
+
+      const targetDay = ensureDay(activeTodoDate);
+      const listEl = document.getElementById('homeTodoListBox');
+      listEl.innerHTML = '';
+
+      const remaining = targetDay.todos.filter(t => !t.done).length;
+      document.getElementById('todoRemainCount').textContent =
+        targetDay.todos.length > 0 ? `未完成 ${remaining} 項` : '';
+
+      targetDay.todos.forEach((item, idx) => {
+        const row = document.createElement('div');
+        row.className = 'todo-item-box' + (item.done ? ' completed' : '');
+        row.innerHTML = `
+          <div style="display:flex;align-items:center;gap:8px;cursor:pointer;flex:1;">
+            <div class="circle-check" style="width:20px;height:20px;font-size:0.75rem;${item.done ? 'background:var(--sage);border-color:var(--sage);' : ''}">${item.done ? '✓' : ''}</div>
+            <span class="todo-label">${item.text}</span>
+          </div>
+          <button class="del-x-btn" title="刪除">✕</button>
+        `;
+        row.querySelector('div').onclick = () => {
+          item.done = !item.done;
+          persistAppData();
+          renderTodosUI();
+        };
+        row.querySelector('.del-x-btn').onclick = () => {
+          targetDay.todos.splice(idx, 1);
+          persistAppData();
+          renderTodosUI();
+        };
+        listEl.appendChild(row);
+      });
+    }
+
+    function renderDiaryUI(todayDay) {
+      const wGrid = document.getElementById('diaryWeatherGrid');
+      wGrid.innerHTML = '';
+      WEATHER_ITEMS.forEach(w => {
+        const el = document.createElement('div');
+        el.className = 'weather-opt' + (todayDay.weather === w.key ? ' active' : '');
+        el.innerHTML = `<span style="font-size:0.95rem;">${w.icon}</span><span>${w.key}</span>`;
+        el.onclick = () => {
+          todayDay.weather = w.key;
+          persistAppData();
+          renderDiaryUI(todayDay);
+        };
+        wGrid.appendChild(el);
+      });
+
+      const mRow = document.getElementById('diaryMoodRow');
+      mRow.innerHTML = '';
+      MOOD_ITEMS.forEach(m => {
+        const el = document.createElement('div');
+        el.className = 'mood-opt' + (todayDay.mood === m ? ' active' : '');
+        el.textContent = m;
+        el.onclick = () => {
+          todayDay.mood = m;
+          persistAppData();
+          renderDiaryUI(todayDay);
+        };
+        mRow.appendChild(el);
+      });
+
+      document.getElementById('diaryWeatherNote').value = todayDay.weatherNote || '';
+      document.getElementById('diaryMoodNote').value = todayDay.moodNote || '';
+      document.getElementById('diaryStoryInput').value = todayDay.story || '';
+      document.getElementById('diaryCharCount').textContent = `${(todayDay.story || '').length} 字`;
+    }
+
+    // 分頁切換
+    function switchPage(pageName) {
+      document.querySelectorAll('.segment-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.page === pageName);
+      });
+      document.getElementById('pageHome').classList.toggle('hidden', pageName !== 'home');
+      document.getElementById('pageDiary').classList.toggle('hidden', pageName !== 'diary');
+    }
+
+    document.querySelectorAll('.segment-btn').forEach(b => {
+      b.onclick = () => switchPage(b.dataset.page);
+    });
+    document.getElementById('jumpToDiaryBtn').onclick = () => switchPage('diary');
+
+    // 待辦日期選擇
+    document.getElementById('pillToday').onclick = () => {
+      activeTodoDate = todayStr;
+      renderTodosUI();
+    };
+    document.getElementById('pillTomorrow').onclick = () => {
+      activeTodoDate = shiftDateStr(todayStr, 1);
+      renderTodosUI();
+    };
+    document.getElementById('todoDatePicker').addEventListener('change', e => {
+      if (e.target.value) {
+        activeTodoDate = e.target.value;
+        renderTodosUI();
+      }
     });
 
+    function addTodoItem() {
+      const inp = document.getElementById('homeTodoInput');
+      const txt = inp.value.trim();
+      if (!txt) return;
+      const targetDay = ensureDay(activeTodoDate);
+      targetDay.todos.push({ text: txt, done: false });
+      inp.value = '';
+      persistAppData();
+      renderTodosUI();
+    }
+    document.getElementById('homeTodoAddBtn').onclick = addTodoItem;
+    document.getElementById('homeTodoInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') addTodoItem();
+    });
+
+    // 小日記欄位即時同步
+    document.getElementById('diaryWeatherNote').addEventListener('input', e => {
+      ensureDay(todayStr).weatherNote = e.target.value;
+      persistAppData();
+    });
+    document.getElementById('diaryMoodNote').addEventListener('input', e => {
+      ensureDay(todayStr).moodNote = e.target.value;
+      persistAppData();
+      renderHabitsUI(ensureDay(todayStr));
+    });
+    document.getElementById('diaryStoryInput').addEventListener('input', e => {
+      const d = ensureDay(todayStr);
+      d.story = e.target.value;
+      persistAppData();
+      document.getElementById('diaryCharCount').textContent = `${d.story.length} 字`;
+      document.getElementById('homeDiaryPreview').textContent =
+        d.story.trim() ? d.story.trim().slice(0, 28) + (d.story.trim().length > 28 ? '...' : '') : '今天的小日記還沒寫喔，留幾句話...';
+      renderHabitsUI(d);
+    });
+
+    // Modals
     function closeModal(id) {
       document.getElementById(id).classList.remove('open');
     }
 
-    // 水壺設定
-    document.getElementById('openWaterModalBtn').onclick = () => {
-      document.getElementById('bottleSizeInput').value = state.settings.bottleMl;
-      document.getElementById('waterGoalInput').value = state.settings.waterGoalMl;
-      document.getElementById('waterModal').classList.add('open');
+    document.getElementById('editTitleBtn').onclick = () => {
+      document.getElementById('titleInput').value = appData.settings.appTitle;
+      document.getElementById('titleModal').classList.add('open');
     };
-
-    window.setBottlePreset = function(ml) {
-      document.getElementById('bottleSizeInput').value = ml;
+    window.setTitleVal = function(v) {
+      document.getElementById('titleInput').value = v;
     };
-
-    document.getElementById('saveWaterSettingsBtn').onclick = () => {
-      const b = parseInt(document.getElementById('bottleSizeInput').value, 10);
-      const g = parseInt(document.getElementById('waterGoalInput').value, 10);
-      if (b >= 50 && g >= 200) {
-        state.settings.bottleMl = b;
-        state.settings.waterGoalMl = g;
-        saveState();
-        renderWater();
-        closeModal('waterModal');
-        showToast('已更新水壺設定');
+    document.getElementById('saveTitleBtn').onclick = () => {
+      const v = document.getElementById('titleInput').value.trim();
+      if (v) {
+        appData.settings.appTitle = v;
+        persistAppData();
+        renderAll();
+        closeModal('titleModal');
+        showToast('已更新標題');
       }
     };
 
-    // 習慣編輯
-    function renderEditHabits() {
-      const container = document.getElementById('editHabitList');
-      container.innerHTML = '';
-      state.settings.habits.forEach((h, idx) => {
+    document.getElementById('openWaterBtn').onclick = () => {
+      document.getElementById('bottleInput').value = appData.settings.bottleMl;
+      document.getElementById('goalInput').value = appData.settings.goalMl;
+      document.getElementById('waterModal').classList.add('open');
+    };
+    window.setBottleVal = function(ml) {
+      document.getElementById('bottleInput').value = ml;
+    };
+    document.getElementById('saveWaterBtn').onclick = () => {
+      const b = parseInt(document.getElementById('bottleInput').value, 10);
+      const g = parseInt(document.getElementById('goalInput').value, 10);
+      if (b >= 50 && g >= 200) {
+        appData.settings.bottleMl = b;
+        appData.settings.goalMl = g;
+        persistAppData();
+        renderWaterUI(ensureDay(todayStr));
+        closeModal('waterModal');
+        showToast('已儲存水壺設定');
+      }
+    };
+
+    function renderHabitModalRows() {
+      const wrap = document.getElementById('habitEditRows');
+      wrap.innerHTML = '';
+      appData.settings.habits.forEach((h, i) => {
         const row = document.createElement('div');
         row.style.cssText = 'display:flex;gap:6px;align-items:center;';
         row.innerHTML = `
           <input type="text" value="${h.name}" />
-          <button class="del-btn" title="移除">✕</button>
+          <button class="del-x-btn" title="刪除">✕</button>
         `;
         row.querySelector('input').addEventListener('input', e => {
           h.name = e.target.value;
-          saveState();
-          renderHabits();
+          persistAppData();
+          renderHabitsUI(ensureDay(todayStr));
         });
-        row.querySelector('.del-btn').onclick = () => {
-          state.settings.habits.splice(idx, 1);
-          saveState();
-          renderEditHabits();
-          renderHabits();
+        row.querySelector('.del-x-btn').onclick = () => {
+          appData.settings.habits.splice(i, 1);
+          persistAppData();
+          renderHabitModalRows();
+          renderHabitsUI(ensureDay(todayStr));
         };
-        container.appendChild(row);
+        wrap.appendChild(row);
       });
     }
 
-    document.getElementById('openHabitModalBtn').onclick = () => {
-      renderEditHabits();
+    document.getElementById('openHabitBtn').onclick = () => {
+      renderHabitModalRows();
       document.getElementById('habitModal').classList.add('open');
     };
-
-    document.getElementById('addHabitBtn').onclick = () => {
-      const input = document.getElementById('newHabitInput');
-      const name = input.value.trim();
+    document.getElementById('addHabitConfirmBtn').onclick = () => {
+      const inp = document.getElementById('newHabitNameInput');
+      const name = inp.value.trim();
       if (!name) return;
-      state.settings.habits.push({
-        id: 'h_' + Date.now(),
-        name,
-        autoDiary: false
-      });
-      input.value = '';
-      saveState();
-      renderEditHabits();
-      renderHabits();
+      appData.settings.habits.push({ id: 'hb_' + Date.now(), name, hint: '', autoDiary: false });
+      inp.value = '';
+      persistAppData();
+      renderHabitModalRows();
+      renderHabitsUI(ensureDay(todayStr));
     };
 
-    // 備份與還原
     document.getElementById('openBackupBtn').onclick = () => {
       document.getElementById('backupModal').classList.add('open');
     };
-
-    document.getElementById('exportBackupBtn').onclick = () => {
-      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    document.getElementById('exportJsonBtn').onclick = () => {
+      const blob = new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      const safeTitle = (state.settings.appTitle || '今日亭好').replace(/[\/:*?"<>|]/g, '_');
       a.href = url;
-      a.download = `${safeTitle}_備份_${formatDateKey(new Date())}.json`;
+      a.download = `今日亭好_備份_${todayStr}.json`;
       a.click();
       URL.revokeObjectURL(url);
-      showToast('已下載備份檔案');
+      showToast('已下載備份檔');
     };
-
-    document.getElementById('importBackupInput').addEventListener('change', e => {
+    document.getElementById('importJsonFile').addEventListener('change', e => {
       const file = e.target.files[0];
       if (!file) return;
       const reader = new FileReader();
       reader.onload = ev => {
         try {
-          const imported = JSON.parse(ev.target.result);
-          if (imported && imported.settings && imported.days) {
-            state = imported;
-            saveState();
+          const parsed = JSON.parse(ev.target.result);
+          if (parsed && parsed.settings && parsed.days) {
+            appData = parsed;
+            persistAppData();
             renderAll();
             closeModal('backupModal');
-            showToast('資料還原成功！');
+            showToast('還原成功！');
           } else {
-            alert('備份檔格式不正確喔！');
+            alert('備份檔格式不正確');
           }
         } catch (err) {
-          alert('讀取備份檔失敗，請確認檔案是否完整。');
+          alert('無法讀取備份檔');
         }
       };
       reader.readAsText(file);
